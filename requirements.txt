@@ -1,5 +1,4 @@
-setuptools
-wheels
+streamlit
 flake8
 pytest 
 pytest-cov 
