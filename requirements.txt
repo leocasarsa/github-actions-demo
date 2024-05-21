@@ -1,0 +1,6 @@
+setuptools
+wheels
+flake8
+pytest 
+pytest-cov 
+ruff
