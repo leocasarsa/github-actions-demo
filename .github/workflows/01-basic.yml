@@ -14,6 +14,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           echo Hello, world!
+          echo These are the project requirements:
           less requirements.txt
   
   Explore-GitHub-Actions:
