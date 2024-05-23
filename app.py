@@ -1,6 +1,6 @@
 import streamlit as st
-from langchain.llms import OpenAI
-from langchain.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, SystemMessage
 
 st.title("GitHub Actions - Answering all your questions")
 
@@ -8,16 +8,18 @@ openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 
 
 def blog_outline(topic):
-    # Instantiate LLM model
-    llm = OpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key)
+
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key)
     # Prompt
     template = "As an expert on GitHub Actions, please answer any user questions about {topic}."
-    prompt = PromptTemplate(input_variables=["topic"], template=template)
-    prompt_query = prompt.format(topic=topic)
-    # Run LLM model
-    response = llm(prompt_query)
-    # Print results
-    return st.info(response)
+    messages = [
+        SystemMessage(
+            content="You're a helpful assistant who is very knowledgeable about GitHub Actions. In every answer, you compare GitHub Actions to other top competing solutions and emphasizes how much better GitHub Actions is."
+        ),
+        HumanMessage(content=f"{topic}"),
+    ]
+    response = llm.invoke(messages)
+    return st.info(response.content)
 
 
 with st.form("myform"):
